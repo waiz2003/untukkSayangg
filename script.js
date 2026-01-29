@@ -27,8 +27,8 @@ function moveNoButton() {
     const maxY = window.innerHeight - noBtn.offsetHeight - padding;
 
     // Random position within safe bounds (with margin)
-    const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
-    const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
+    const randomX = Math.max(padding, Math.floor(Math.random() * Math.max(0, maxX)));
+    const randomY = Math.max(padding, Math.floor(Math.random() * Math.max(0, maxY)));
 
     // Move button to body to avoid transform context issues
     if (noBtn.parentNode !== document.body) {

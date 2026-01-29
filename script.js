@@ -105,7 +105,7 @@ yesBtn.addEventListener('click', () => {
     // Change content
     mainImage.src = 'assets/happydudububu.gif';
     mainImage.style.transform = 'scale(1)'; // Reset size
-    mainTitle.textContent = "YAY! Babyyy sayangg sayangg sangatt sangattt! ❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️";
+    mainTitle.textContent = "YAY! Babyyy saaayaaangg sayangg sangatt sangattt! ❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️";
     subTitle.textContent = "Thank you sayanggg sbb maafkan babyyy!";
 
     // Hide buttons

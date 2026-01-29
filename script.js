@@ -39,17 +39,26 @@ function moveNoButton() {
     noBtn.style.left = randomX + 'px';
     noBtn.style.top = randomY + 'px';
 
-    // Calculate max scales dynamically to ensure they fit valid screen area
-    const maxYesScale = Math.min(window.innerWidth / yesBtn.offsetWidth, window.innerHeight / yesBtn.offsetHeight);
+    // Calculate max scales for Yes button (separate X and Y to fill screen)
+    const maxYesScaleX = window.innerWidth / yesBtn.offsetWidth;
+    const maxYesScaleY = window.innerHeight / yesBtn.offsetHeight;
+
+    // Calculate max scale for Image (uniform to prevent distortion)
     const maxImageScale = Math.min(window.innerWidth / mainImage.offsetWidth, window.innerHeight / mainImage.offsetHeight);
 
-    // Make Yes button bigger, capped at max scale
-    yesScale = Math.min(yesScale + 0.5, maxYesScale);
-    yesBtn.style.transform = `scale(${yesScale})`;
+    // Increment base scales
+    yesScale += 0.5;
+    imageScale += 0.2;
 
-    // Make Sad Gif bigger, capped at max scale
-    imageScale = Math.min(imageScale + 0.2, maxImageScale);
-    mainImage.style.transform = `scale(${imageScale})`;
+    // Apply scaling
+    // Button: Allow non-uniform scaling to fill screen space
+    const currentYesScaleX = Math.min(yesScale, maxYesScaleX);
+    const currentYesScaleY = Math.min(yesScale, maxYesScaleY);
+    yesBtn.style.transform = `scale(${currentYesScaleX}, ${currentYesScaleY})`;
+
+    // Image: Uniform scaling only
+    const currentImageScale = Math.min(imageScale, maxImageScale);
+    mainImage.style.transform = `scale(${currentImageScale})`;
 
     // Change text of No button randomly
     noClickCount++;
@@ -97,7 +106,7 @@ yesBtn.addEventListener('click', () => {
     mainImage.src = 'assets/happydudububu.gif';
     mainImage.style.transform = 'scale(1)'; // Reset size
     mainTitle.textContent = "YAY! Babyyy sayangg sayangg sangatt sangattt! ❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️";
-    subTitle.textContent = "Thank you sayanggg maafkan babyyy!";
+    subTitle.textContent = "Thank you sayanggg sbb maafkan babyyy!";
 
     // Hide buttons
     buttonsContainer.style.display = 'none';

@@ -39,12 +39,16 @@ function moveNoButton() {
     noBtn.style.left = randomX + 'px';
     noBtn.style.top = randomY + 'px';
 
-    // Make Yes button bigger
-    yesScale += 0.5;
+    // Calculate max scales dynamically to ensure they fit valid screen area
+    const maxYesScale = Math.min(window.innerWidth / yesBtn.offsetWidth, window.innerHeight / yesBtn.offsetHeight);
+    const maxImageScale = Math.min(window.innerWidth / mainImage.offsetWidth, window.innerHeight / mainImage.offsetHeight);
+
+    // Make Yes button bigger, capped at max scale
+    yesScale = Math.min(yesScale + 0.5, maxYesScale);
     yesBtn.style.transform = `scale(${yesScale})`;
 
-    // Make Sad Gif bigger
-    imageScale += 0.2;
+    // Make Sad Gif bigger, capped at max scale
+    imageScale = Math.min(imageScale + 0.2, maxImageScale);
     mainImage.style.transform = `scale(${imageScale})`;
 
     // Change text of No button randomly
@@ -62,6 +66,30 @@ noBtn.addEventListener('touchstart', (e) => {
     moveNoButton();
 });
 noBtn.addEventListener('click', moveNoButton);
+
+// Ensure button stays in view on resize (e.g. mobile rotation)
+window.addEventListener('resize', () => {
+    if (noBtn.style.position === 'fixed') {
+        const padding = 20;
+        const currentX = parseFloat(noBtn.style.left) || 0;
+        const currentY = parseFloat(noBtn.style.top) || 0;
+
+        const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+        const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+
+        // If button is out of bounds, bring it back
+        let newX = currentX;
+        let newY = currentY;
+
+        if (currentX > maxX) newX = Math.max(padding, maxX);
+        if (currentY > maxY) newY = Math.max(padding, maxY);
+
+        if (newX !== currentX || newY !== currentY) {
+            noBtn.style.left = newX + 'px';
+            noBtn.style.top = newY + 'px';
+        }
+    }
+});
 
 // Logic for 'Yes' button
 yesBtn.addEventListener('click', () => {
